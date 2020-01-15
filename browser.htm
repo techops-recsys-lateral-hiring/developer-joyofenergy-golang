@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PowerDale&#39;s Postman</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            background-color: beige;
+            display: flex;
+            flex-direction: column;
+        }
+        input, textarea {
+            font: inherit;
+        }
+        textarea {
+            width: 100%;
+            flex-grow: 1;
+            font-family: monospace;
+        }
+        textarea[id='response'] {
+            flex-grow: 2;
+        }
+        label {
+            font-weight: bold;
+        }
+        .ok {
+            color: green;
+        }
+        .err {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Hello Browser user,</h1>
+<p>We at PowerDale have got you covered. Just enter the request you want to send below and click the button to get the response.</p>
+<label for="path">Request URL:</label>
+<div><span id="host">http://www.example.com/</span><input id="path" type="text" placeholder="path/to/request" /><input type="button" value="reset" onclick="reset()" /></div>
+<label for="request">Request Payload:</label>
+<textarea id="request" autofocus="autofocus" placeholder="{&#10;  &#34;message&#34;: &#34;put your request payload here...&#34;&#10;}"></textarea>
+<div><input type="button" value="Send GET Request" onclick="send()" /><input type="button" value="Send POST Request" onclick="post()" /></div>
+<p>Server returned with HTTP Status <span id="status"></span></p>
+<label for="response">Response:</label>
+<textarea id="response" placeholder="{&#10;  &#34;message&#34;: &#34;here will be your answer...&#34;&#10;}"></textarea>
+<script type="text/javascript">
+    function server() {
+        return window.location.protocol + '//' + window.location.host
+    }
+    function reset() {
+        document.getElementById('host').innerText = server();
+        document.getElementById('path').value = window.location.pathname;
+    }
+    function post() {
+        send(document.getElementById('request').value)
+    }
+    function respond(target, status) {
+        document.getElementById('status').className = (target.status === 200) ? 'ok' : 'err';
+        document.getElementById('status').innerText = status || (target.status + ' - ' + target.statusText);
+        document.getElementById('response').value = target.response;
+    }
+    function send(data) {
+        var XHR = new XMLHttpRequest();
+        XHR.addEventListener('load', function(event) {
+            respond(event.target);
+        });
+
+        XHR.addEventListener('error', function(event) {
+            respond(event.target, 'error in request');
+        });
+
+        XHR.open(data !== undefined ? 'POST' : 'GET', server() + document.getElementById('path').value);
+        XHR.setRequestHeader('Content-Type', 'application/json');
+        XHR.setRequestHeader('Accept', 'application/json');
+        XHR.send(data);
+    }
+    reset();
+</script>
+</body>
+</html>

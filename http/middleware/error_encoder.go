@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 
 	kithttp "github.com/go-kit/kit/transport/http"
@@ -72,7 +72,7 @@ func toHTTPStatusCode(err error) int {
 func sendBrowserDoc(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusUnsupportedMediaType)
-	b, err := ioutil.ReadFile("browser.htm")
+	b, err := os.ReadFile("browser.htm")
 	if err != nil {
 		return err
 	}

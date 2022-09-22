@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
@@ -41,7 +40,7 @@ func decodeRequest(ctx context.Context, body io.ReadCloser, request interface{})
 	if contentType != MimeJSON {
 		return ErrInvalidContentType
 	}
-	data, err := ioutil.ReadAll(body)
+	data, err := io.ReadAll(body)
 	if err != nil {
 		return err
 	}

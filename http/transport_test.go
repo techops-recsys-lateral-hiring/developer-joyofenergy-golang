@@ -3,7 +3,7 @@ package http
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -37,7 +37,7 @@ func TestEncodeJSONResponse(t *testing.T) {
 	err := EncodeResponse(ctx, r, &bodyValue)
 	assert.NoError(t, err)
 
-	actual, err := ioutil.ReadAll(r.Body)
+	actual, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.JSONEq(t, expected, string(actual))

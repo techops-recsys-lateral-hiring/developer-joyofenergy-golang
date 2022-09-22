@@ -25,7 +25,7 @@ func MakeStoreReadingsHandler(
 	opts := []kithttp.ServerOption{
 		kithttp.ServerBefore(serveroption.ExtractContentTypeIntoContext),
 		kithttp.ServerBefore(serveroption.ExtractAcceptHeaderIntoContext),
-		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogrusLogger(logger))),
+		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogger(logger))),
 		kithttp.ServerErrorEncoder(middleware.MakeEncodeErrorFunc(logger)),
 	}
 
@@ -51,7 +51,7 @@ func MakeGetReadingsHandler(
 ) http.Handler {
 	opts := []kithttp.ServerOption{
 		kithttp.ServerBefore(serveroption.ExtractAcceptHeaderIntoContext),
-		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogrusLogger(logger))),
+		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogger(logger))),
 		kithttp.ServerErrorEncoder(middleware.MakeEncodeErrorFunc(logger)),
 	}
 

@@ -22,7 +22,7 @@ func MakeCompareAllPricePlansHandler(
 ) http.Handler {
 	opts := []kithttp.ServerOption{
 		kithttp.ServerBefore(serveroption.ExtractAcceptHeaderIntoContext),
-		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogrusLogger(logger))),
+		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogger(logger))),
 		kithttp.ServerErrorEncoder(middleware.MakeEncodeErrorFunc(logger)),
 	}
 
@@ -47,7 +47,7 @@ func MakeRecommendPricePlansHandler(
 	opts := []kithttp.ServerOption{
 		kithttp.ServerBefore(serveroption.ExtractAcceptHeaderIntoContext),
 		kithttp.ServerBefore(serveroption.ExtractQueryIntoContext),
-		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogrusLogger(logger))),
+		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(kitlogrus.NewLogger(logger))),
 		kithttp.ServerErrorEncoder(middleware.MakeEncodeErrorFunc(logger)),
 	}
 

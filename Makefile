@@ -15,7 +15,6 @@ build: bin/server
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
-	rm -rf $(TOOLS_DIR)
 	@go mod vendor
 	@go mod tidy
 
@@ -23,12 +22,8 @@ clean:
 run: build
 	bin/server
 
-tools/golangci-lint/golangci-lint:
-	mkdir -p tools/
-	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b tools/golangci-lint latest
-
 .PHONY: lint
-lint: $(TOOLS_DIR)/golangci-lint/golangci-lint
+lint:
 	./$(TOOLS_DIR)/golangci-lint/golangci-lint run ./...
 
 .PHONY: test

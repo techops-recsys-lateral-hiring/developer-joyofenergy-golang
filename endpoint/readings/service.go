@@ -13,7 +13,7 @@ type Service interface {
 }
 
 type service struct {
-	logger *logrus.Entry
+	logger        *logrus.Entry
 	meterReadings *repository.MeterReadings
 }
 

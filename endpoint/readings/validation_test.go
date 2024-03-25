@@ -12,8 +12,8 @@ import (
 func generateValidInput() domain.StoreReadings {
 	return domain.StoreReadings{
 		SmartMeterId: "12345",
-		ElectricityReadings:         []domain.ElectricityReading{{
-			Time: time.Now(),
+		ElectricityReadings: []domain.ElectricityReading{{
+			Time:    time.Now(),
 			Reading: 123.45,
 		}},
 	}

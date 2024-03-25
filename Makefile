@@ -7,7 +7,7 @@ all: clean lint test build run
 
 .PHONY: $(BUILD_DIR)/server
 bin/server: cmd/server/*.go
-	CGO_ENABLED=0 go build -mod vendor -ldflags="-s -w" -o ./bin/server ./cmd/server/
+	CGO_ENABLED=0 go build -ldflags="-s -w" -o ./bin/server ./cmd/server/
 
 .PHONY: build
 build: bin/server
@@ -15,8 +15,6 @@ build: bin/server
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
-	@go mod vendor
-	@go mod tidy
 
 .PHONY: run
 run: build
@@ -28,4 +26,4 @@ lint:
 
 .PHONY: test
 test:
-	go test -mod vendor -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
+	go test -race -cover -coverprofile=coverage.txt -covermode=atomic ./...

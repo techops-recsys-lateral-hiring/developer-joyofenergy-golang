@@ -14,8 +14,9 @@ import (
 	"joi-energy-golang/endpoint/readings"
 	"joi-energy-golang/repository"
 )
+
 const (
-	serverPort  = "localhost:8080"
+	serverPort = "localhost:8080"
 )
 
 // Run starts the HTTP server

@@ -7,7 +7,7 @@ import (
 )
 
 type PricePlans struct {
-	pricePlans []domain.PricePlan
+	pricePlans    []domain.PricePlan
 	meterReadings *MeterReadings
 }
 

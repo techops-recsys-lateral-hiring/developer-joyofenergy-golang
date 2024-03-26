@@ -9,7 +9,7 @@ There are three major providers of energy in town that charge different amounts 
 - _The Green Eco_
 - _Power for Everyone_
 
-# Introducing JOI Energy
+## Introducing JOI Energy
 
 JOI Energy is a new startup in the energy industry.
 Rather than selling energy they want to differentiate themselves from the market by recording their customers' energy usage from their smart meters and
@@ -20,7 +20,7 @@ You have been placed into their development team, whose current goal is to produ
 Unfortunately, two of the team are on annual leave, and another has called in sick!
 You are left with a ThoughtWorker to progress with the current user stories on the story wall. This is your chance to make an impact on the business, improve the code base and deliver value.
 
-## Story Wall
+### Story Wall
 
 At JOI energy the development team use a story wall or kanban board to keep track of features or "stories" as they are worked on.
 
@@ -36,7 +36,7 @@ The wall you will be working from today has 7 columns:
 
 Examples can be found here https://leankit.com/learn/kanban/kanban-board/
 
-## Users
+### Users
 
 To trial the new JOI software 5 people from the JOI accounts team have agreed to test the service and share their energy data.
 
@@ -51,20 +51,20 @@ To trial the new JOI software 5 people from the JOI accounts team have agreed to
 JOI Energy is a new energy company that uses data to ensure customers are 
 able to be on the best price plan for their energy consumption.
 
-## API
+### API
 
 Below is a list of API endpoints with their respective input and output.
 
-### Store Readings
+#### Store Readings
 
-#### Endpoint
+##### Endpoint
 
 ```
 POST
 /readings/store
 ```
 
-#### Input
+##### Input
 
 ```json
 {
@@ -79,9 +79,9 @@ POST
 `timestamp`: Unix timestamp, e.g. `1504777098`   
 `reading`: kW reading of smart meter at that time, e.g. `0.0503`
 
-### Get Stored Readings
+#### Get Stored Readings
 
-#### Endpoint
+##### Endpoint
 
 ```
 GET
@@ -90,7 +90,7 @@ GET
 
 `smartMeterId`: A string value, e.g. `smart-meter-0`
 
-#### Output
+##### Output
 
 ```json
 [
@@ -99,9 +99,9 @@ GET
 ]
 ```
 
-### View Current Price Plan and Compare Usage Cost Against all Price Plans
+#### View Current Price Plan and Compare Usage Cost Against all Price Plans
  
-#### Endpoint
+##### Endpoint
 
 ```
 GET
@@ -110,7 +110,7 @@ GET
 
 `smartMeterId`: A string value, e.g. `smart-meter-0`
  
-#### Output
+##### Output
 ```json
 {
    "pricePlanId": "price-plan-2",
@@ -121,9 +121,9 @@ GET
 }
 ```
  
-### View Recommended Price Plans for Usage
+#### View Recommended Price Plans for Usage
 
-#### Endpoint
+##### Endpoint
 
 ```
 GET
@@ -134,7 +134,7 @@ GET
 
 `limit`: Optional limit to display only a number of price plans, e.g. `2`
 
-#### Output
+##### Output
 
 ```json
 [
@@ -145,7 +145,36 @@ GET
 ]
 ```
 
-## Useful make commands
+## Installation and usage
+
+### Dependencies
+
+The only requirement is a support version of Go. From
+[Go 1.21](https://tip.golang.org/doc/go1.21) onwards the appropriate toolchain
+should be downloaded automatically. See also the project's [go.mod](./go.mod).
+
+You may also wish to:
+
+1. Install `make` (recommended: GNU Make v3)
+2. Install `golangci-lint` to `./tools/golangci-lint/golangci-lint`, either by
+   symlinking to an installation installed via package manager, or by running
+   the provided installation script
+
+#### Installing `golangci-lint`
+
+```bash
+# On MacOS, using a system package, you might do:
+brew install golangci-lint
+mkdir -p tools/golangci-lint
+ln -snf "$(which golangci-lint)" tools/golangci-lint/golangci-lint
+
+# To use the (multi-platform) installation script, you might do:
+mkdir -p tools
+rm -rf tools/golangci-lint
+curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b tools/golangci-lint latest
+```
+
+### Useful make commands
 
 ```
 make run
@@ -160,7 +189,7 @@ make             # default is make all
 This has been created using go modules; to run the tests, just execute:
 
 ```bash
-go test -mod vendor -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
+go test -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
 ```
 
 or (using make):

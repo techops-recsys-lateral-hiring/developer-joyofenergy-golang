@@ -25,7 +25,7 @@ func makeGetReadingsEndpoint(s Service) endpoint.Endpoint {
 		}
 		res := s.GetReadings(req)
 		return domain.StoreReadings{
-			SmartMeterId: req,
+			SmartMeterId:        req,
 			ElectricityReadings: res,
 		}, nil
 	}

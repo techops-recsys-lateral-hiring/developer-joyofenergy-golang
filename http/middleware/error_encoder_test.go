@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -25,49 +25,49 @@ func TestEncodeError(t *testing.T) {
 		expectedStatusCode int
 	}{
 		{
-			name:               "invalid content type",
-			err:                mhttp.ErrInvalidContentType,
-			expectedOutput:     `{
+			name: "invalid content type",
+			err:  mhttp.ErrInvalidContentType,
+			expectedOutput: `{
   "errorMessage": "invalid content-type"
 }`,
 			expectedStatusCode: http.StatusUnsupportedMediaType,
 		},
 		{
-			name:               "missing argument",
-			err:                domain.ErrMissingArgument,
-			expectedOutput:     `{
+			name: "missing argument",
+			err:  domain.ErrMissingArgument,
+			expectedOutput: `{
   "errorMessage": "missing argument"
 }`,
 			expectedStatusCode: http.StatusBadRequest,
 		},
 		{
-			name:               "invalid message type",
-			err:                domain.ErrInvalidMessageType,
-			expectedOutput:     `{
+			name: "invalid message type",
+			err:  domain.ErrInvalidMessageType,
+			expectedOutput: `{
   "errorMessage": "invalid message-type"
 }`,
 			expectedStatusCode: http.StatusBadRequest,
 		},
 		{
-			name:               "invalid accept header",
-			err:                mhttp.ErrInvalidAcceptHeader,
-			expectedOutput:     `{
+			name: "invalid accept header",
+			err:  mhttp.ErrInvalidAcceptHeader,
+			expectedOutput: `{
   "errorMessage": "invalid accept header"
 }`,
 			expectedStatusCode: http.StatusNotAcceptable,
 		},
 		{
-			name:               "not found",
-			err:                domain.ErrNotFound,
-			expectedOutput:     `{
+			name: "not found",
+			err:  domain.ErrNotFound,
+			expectedOutput: `{
   "errorMessage": "not found"
 }`,
 			expectedStatusCode: http.StatusNotFound,
 		},
 		{
-			name:               "unknown error",
-			err:                errors.New("👻 I see dead code"),
-			expectedOutput:     `{
+			name: "unknown error",
+			err:  errors.New("👻 I see dead code"),
+			expectedOutput: `{
   "errorMessage": "👻 I see dead code"
 }`,
 			expectedStatusCode: http.StatusInternalServerError,
@@ -83,7 +83,7 @@ func TestEncodeError(t *testing.T) {
 			resp := r.Result()
 			defer resp.Body.Close()
 
-			actual, _ := ioutil.ReadAll(resp.Body)
+			actual, _ := io.ReadAll(resp.Body)
 			assert.Equal(t, tt.expectedOutput, string(actual))
 			assert.Equal(t, tt.expectedStatusCode, r.Code)
 		})
@@ -101,7 +101,7 @@ func TestEncodeErrorWithInvalidContentType(t *testing.T) {
 	resp := r.Result()
 	defer resp.Body.Close()
 
-	actual, _ := ioutil.ReadAll(resp.Body)
+	actual, _ := io.ReadAll(resp.Body)
 	assert.Equal(t, "", string(actual))
 	assert.Equal(t, 400, r.Code)
 

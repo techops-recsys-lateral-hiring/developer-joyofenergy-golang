@@ -2,7 +2,7 @@ package priceplans
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,7 +13,7 @@ import (
 	"joi-energy-golang/domain"
 )
 
-type MockService struct{
+type MockService struct {
 	err error
 	Service
 }
@@ -59,7 +59,7 @@ func TestMakeCompareAllPricePlansHandlerWithInvalidInput(t *testing.T) {
 		ErrorMessage: "cannot be blank",
 	}
 	expected, _ := json.MarshalIndent(expectedMessage, "", "  ")
-	actual, err := ioutil.ReadAll(result.Body)
+	actual, err := io.ReadAll(result.Body)
 	_ = result.Body.Close()
 
 	assert.NoError(t, err)

@@ -15,9 +15,9 @@ type Service interface {
 }
 
 type service struct {
-	logger *logrus.Entry
+	logger     *logrus.Entry
 	pricePlans *repository.PricePlans
-	accounts *repository.Accounts
+	accounts   *repository.Accounts
 }
 
 func NewService(

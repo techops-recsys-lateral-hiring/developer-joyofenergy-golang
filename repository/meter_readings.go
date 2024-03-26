@@ -7,7 +7,7 @@ type MeterReadings struct {
 }
 
 func NewMeterReadings(meterAssociatedReadings map[string][]domain.ElectricityReading) MeterReadings {
-	return MeterReadings{meterAssociatedReadings:meterAssociatedReadings}
+	return MeterReadings{meterAssociatedReadings: meterAssociatedReadings}
 }
 
 func (m *MeterReadings) GetReadings(smartMeterId string) []domain.ElectricityReading {

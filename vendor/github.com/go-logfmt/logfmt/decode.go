@@ -29,6 +29,23 @@ func NewDecoder(r io.Reader) *Decoder {
 	return dec
 }
 
+// NewDecoderSize returns a new decoder that reads from r.
+//
+// The decoder introduces its own buffering and may read data from r beyond
+// the logfmt records requested.
+// The size argument specifies the size of the initial buffer that the
+// Decoder will use to read records from r.
+// If a log line is longer than the size argument, the Decoder will return
+// a bufio.ErrTooLong error.
+func NewDecoderSize(r io.Reader, size int) *Decoder {
+	scanner := bufio.NewScanner(r)
+	scanner.Buffer(make([]byte, 0, size), size)
+	dec := &Decoder{
+		s: scanner,
+	}
+	return dec
+}
+
 // ScanRecord advances the Decoder to the next record, which can then be
 // parsed with the ScanKeyval method. It returns false when decoding stops,
 // either by reaching the end of the input or an error. After ScanRecord
@@ -79,7 +96,7 @@ key:
 			dec.pos += p
 			if dec.pos > start {
 				dec.key = line[start:dec.pos]
-				if multibyte && bytes.IndexRune(dec.key, utf8.RuneError) != -1 {
+				if multibyte && bytes.ContainsRune(dec.key, utf8.RuneError) {
 					dec.syntaxError(invalidKeyError)
 					return false
 				}
@@ -97,7 +114,7 @@ key:
 			dec.pos += p
 			if dec.pos > start {
 				dec.key = line[start:dec.pos]
-				if multibyte && bytes.IndexRune(dec.key, utf8.RuneError) != -1 {
+				if multibyte && bytes.ContainsRune(dec.key, utf8.RuneError) {
 					dec.syntaxError(invalidKeyError)
 					return false
 				}
@@ -110,7 +127,7 @@ key:
 	dec.pos = len(line)
 	if dec.pos > start {
 		dec.key = line[start:dec.pos]
-		if multibyte && bytes.IndexRune(dec.key, utf8.RuneError) != -1 {
+		if multibyte && bytes.ContainsRune(dec.key, utf8.RuneError) {
 			dec.syntaxError(invalidKeyError)
 			return false
 		}

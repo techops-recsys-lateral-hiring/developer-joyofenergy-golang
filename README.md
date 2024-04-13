@@ -70,13 +70,13 @@ POST
 {
     "smartMeterId": <smartMeterId>,
     "electricityReadings": [
-        { "time": <timestamp>, "reading": <reading> },
+        { "time": <UTC-Time>, "reading": <reading> },
         ...
     ]
 }
 ```
 
-`timestamp`: Unix timestamp, e.g. `1504777098`   
+`time`: UTC time, e.g. `2024-04-13T19:41:26Z`
 `reading`: kW reading of smart meter at that time, e.g. `0.0503`
 
 ### Get Stored Readings

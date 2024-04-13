@@ -2,7 +2,7 @@ package server
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -26,11 +26,11 @@ func TestEndpointEndpointSuccess(t *testing.T) {
 	result := rr.Result()
 
 	expectedMessage := domain.StoreReadings{
-		SmartMeterId: "smartMeterId",
+		SmartMeterId:        "smartMeterId",
 		ElectricityReadings: nil,
 	}
 	expected, _ := json.MarshalIndent(expectedMessage, "", "  ")
-	actual, err := ioutil.ReadAll(result.Body)
+	actual, err := io.ReadAll(result.Body)
 	_ = result.Body.Close()
 
 	assert.NoError(t, err)

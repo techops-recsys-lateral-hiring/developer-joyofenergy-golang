@@ -3,7 +3,7 @@ package readings
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -14,7 +14,7 @@ import (
 	"joi-energy-golang/domain"
 )
 
-type MockService struct{
+type MockService struct {
 	Service
 }
 
@@ -62,7 +62,7 @@ func TestMakeStoreReadingsHandlerWithInvalidInput(t *testing.T) {
 		ErrorMessage: "unexpected end of JSON input",
 	}
 	expected, _ := json.MarshalIndent(expectedMessage, "", "  ")
-	actual, err := ioutil.ReadAll(result.Body)
+	actual, err := io.ReadAll(result.Body)
 	_ = result.Body.Close()
 
 	assert.NoError(t, err)

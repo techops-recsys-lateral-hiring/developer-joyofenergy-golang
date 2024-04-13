@@ -160,7 +160,7 @@ make             # default is make all
 This has been created using go modules; to run the tests, just execute:
 
 ```bash
-go test -mod vendor -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
+go test -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
 ```
 
 or (using make):

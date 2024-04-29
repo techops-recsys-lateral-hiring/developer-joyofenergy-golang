@@ -34,3 +34,14 @@ jobs:
         run: yarn semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  Docker:
+    name: Docker image
+    needs: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository code
+        uses: actions/checkout@v4
+
+      - name: Build an image from Dockerfile
+        run: make docker-build

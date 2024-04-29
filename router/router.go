@@ -2,24 +2,33 @@ package router
 
 import (
 	"fmt"
-	"github.com/julienschmidt/httprouter"
 	"joi-energy-golang/api"
 	"joi-energy-golang/endpoints/priceplans"
 	"joi-energy-golang/endpoints/readings"
+	"joi-energy-golang/endpoints/standard"
 	"joi-energy-golang/repository"
 	"log"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func NewServer() *http.Server {
+	return &http.Server{
+		Addr:    getListeningPort(),
+		Handler: newHandler()}
+}
+
+func getListeningPort() string {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
-		log.Printf("defaulting to port %s", port)
+		log.Printf("Defaulting to port %s", port)
 	}
-	return &http.Server{Addr: "localhost:" + port, Handler: newHandler()}
+
+	return fmt.Sprintf(":%s", port)
 }
 
 func addRoutes(r *httprouter.Router) {
@@ -34,6 +43,8 @@ func addRoutes(r *httprouter.Router) {
 
 	readingsHandler := readings.NewHandler(&meterReadings)
 	pricePlanHandler := priceplans.NewHandler(priceplans.NewService(&pricePlans, &accounts))
+
+	r.GET("/healthcheck", standard.Healthcheck)
 
 	r.POST("/readings/store", readingsHandler.StoreReadings)
 	r.GET("/readings/read/:smartMeterId", readingsHandler.GetReadings)

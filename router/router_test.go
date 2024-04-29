@@ -2,9 +2,11 @@ package router
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -60,4 +62,21 @@ func TestEndpointEndpointSuccess(t *testing.T) {
 	err := json.Unmarshal(rr.Body.Bytes(), &actual)
 	assert.NoError(t, err)
 	assert.Equal(t, expected, actual)
+}
+
+func TestHealthcheckEndPoint(t *testing.T) {
+	testHandler := newHandler()
+
+	rr := httptest.NewRecorder()
+
+	request, _ := http.NewRequest(http.MethodGet, "/healthcheck", nil)
+
+	testHandler.ServeHTTP(rr, request)
+	assert.Equal(t, http.StatusOK, rr.Code)
+
+	byteBody, _ := io.ReadAll(rr.Body)
+
+	message := strings.Trim(string(byteBody), "\n")
+
+	assert.Equal(t, "Working!", message)
 }

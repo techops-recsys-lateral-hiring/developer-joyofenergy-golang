@@ -1,23 +1,20 @@
-.PHONY: setup test all clean lint build run help
+.PHONY: setup test build all clean lint run help
 
 BUILD_DIR := bin
 TOOLS_DIR := tools
 
 .DEFAULT_GOAL:=help
 
-setup: ## Setup server.
+setup: ## Set up the server.
 	@go mod download
 
-test: ## Run test.
+test: ## Run the tests.
 	@go test -v ./... -covermode=atomic
 
+build: ## Build the server.
+	@go build -v -ldflags "-s -w" -o ./bin/server ./cmd/server
+
 all: clean lint test build run ## Run all tests, then build and run
-
-.PHONY: $(BUILD_DIR)/server
-$(BUILD_DIR)/server:
-	CGO_ENABLED=0 go build -ldflags="-s -w" -o $(BUILD_DIR)/server ./cmd/server
-
-build: $(BUILD_DIR)/server ## Build the binary
 
 clean: ## Clean up, i.e. remove build artifacts
 	rm -rf $(BUILD_DIR)

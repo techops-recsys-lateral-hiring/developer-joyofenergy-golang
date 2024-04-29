@@ -1,0 +1,24 @@
+{
+  "branches": ["master", "main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "Changelog.md",
+        "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file."
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md"],
+        "message": "chore: ${nextRelease.version} release \n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ],
+
+  "tagFormat": "${version}"
+}

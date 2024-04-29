@@ -1,4 +1,5 @@
 .PHONY: setup test build all clean lint run help
+.PHONY: docker-build docker-run docker-kill
 
 BUILD_DIR := bin
 TOOLS_DIR := tools
@@ -33,3 +34,12 @@ lint: $(TOOLS_DIR)/golangci-lint/golangci-lint ## Run linters
 
 help: ## Display this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+docker-build: ## Build container's Docker.
+	@docker build -t server .
+
+docker-run: ## Run container's Docker.
+	@docker run --name new-server -p 8080:8080 -it server
+
+docker-kill: ## Kill container's Docker.
+	@docker kill new-server

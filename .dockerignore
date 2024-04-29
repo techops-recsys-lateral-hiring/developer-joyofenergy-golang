@@ -1,0 +1,23 @@
+#  Go
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+/bin/server
+
+# Go Patch
+/vendor/
+/Godeps/
+
+# CI-CD
+/.github/
+.editorconfig
+.releaserc
+.gitignore
+
+# Documentation
+*.md
+LICENSE

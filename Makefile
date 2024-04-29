@@ -1,8 +1,12 @@
+.PHONY: test all clean lint build run help
+
 BUILD_DIR := bin
 TOOLS_DIR := tools
 
 .DEFAULT_GOAL:=help
-.PHONY: all clean lint build test run help
+
+test: ## Run test.
+	@go test -v ./... -covermode=atomic
 
 all: clean lint test build run ## Run all tests, then build and run
 
@@ -26,10 +30,6 @@ tools/golangci-lint/golangci-lint:
 
 lint: $(TOOLS_DIR)/golangci-lint/golangci-lint ## Run linters
 	./$(TOOLS_DIR)/golangci-lint/golangci-lint run ./...
-
-.PHONY: test ## Run tests
-test:
-	go test -race -cover -coverprofile=coverage.txt -covermode=atomic ./...
 
 help: ## Display this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

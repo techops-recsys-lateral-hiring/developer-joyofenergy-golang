@@ -1,8 +1,6 @@
 package readings
 
 import (
-	"github.com/sirupsen/logrus"
-
 	"joi-energy-golang/domain"
 	"joi-energy-golang/repository"
 )
@@ -13,16 +11,13 @@ type Service interface {
 }
 
 type service struct {
-	logger *logrus.Entry
 	meterReadings *repository.MeterReadings
 }
 
 func NewService(
-	logger *logrus.Entry,
 	meterReadings *repository.MeterReadings,
 ) Service {
 	return &service{
-		logger:        logger,
 		meterReadings: meterReadings,
 	}
 }

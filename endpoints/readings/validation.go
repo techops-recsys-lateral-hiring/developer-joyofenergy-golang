@@ -1,29 +1,11 @@
 package readings
 
 import (
-	"context"
 	"fmt"
-
-	"github.com/go-kit/kit/endpoint"
 	validation "github.com/go-ozzo/ozzo-validation"
 
 	"joi-energy-golang/domain"
 )
-
-func makeValidationMiddleware() endpoint.Middleware {
-	return func(next endpoint.Endpoint) endpoint.Endpoint {
-		return func(ctx context.Context, req interface{}) (interface{}, error) {
-			msg, ok := req.(domain.StoreReadings)
-			if !ok {
-				return nil, domain.ErrInvalidMessageType
-			}
-			if err := validateStoreReadings(msg); err != nil {
-				return nil, fmt.Errorf("%w: %s", domain.ErrMissingArgument, err)
-			}
-			return next(ctx, req)
-		}
-	}
-}
 
 func validateStoreReadings(msg domain.StoreReadings) error {
 	if err := validation.ValidateStruct(
@@ -31,11 +13,11 @@ func validateStoreReadings(msg domain.StoreReadings) error {
 		validation.Field(&msg.SmartMeterId, validation.Required),
 		validation.Field(&msg.ElectricityReadings, validation.NotNil),
 	); err != nil {
-		return err
+		return fmt.Errorf("store readings validation failed: %w", err)
 	}
 	for _, row := range msg.ElectricityReadings {
 		if err := validateElectricityReadings(row); err != nil {
-			return err
+			return fmt.Errorf("store readings validation failed for electricity reading: %w", err)
 		}
 	}
 	return nil

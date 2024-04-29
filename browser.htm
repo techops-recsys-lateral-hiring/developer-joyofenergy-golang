@@ -59,6 +59,13 @@
         document.getElementById('status').className = (target.status === 200) ? 'ok' : 'err';
         document.getElementById('status').innerText = status || (target.status + ' - ' + target.statusText);
         document.getElementById('response').value = target.response;
+
+        var contentType = target.getResponseHeader('Content-Type');
+        if (contentType && contentType.includes('application/json')) {
+            var jsonResponse = JSON.parse(target.response);
+            var prettyJson = JSON.stringify(jsonResponse, null, 2);
+            document.getElementById('response').value = prettyJson;
+        }
     }
     function send(data) {
         var XHR = new XMLHttpRequest();

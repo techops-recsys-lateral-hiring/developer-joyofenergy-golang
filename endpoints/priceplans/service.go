@@ -3,8 +3,6 @@ package priceplans
 import (
 	"sort"
 
-	"github.com/sirupsen/logrus"
-
 	"joi-energy-golang/domain"
 	"joi-energy-golang/repository"
 )
@@ -15,18 +13,15 @@ type Service interface {
 }
 
 type service struct {
-	logger *logrus.Entry
 	pricePlans *repository.PricePlans
-	accounts *repository.Accounts
+	accounts   *repository.Accounts
 }
 
 func NewService(
-	logger *logrus.Entry,
 	pricePlans *repository.PricePlans,
 	accounts *repository.Accounts,
 ) Service {
 	return &service{
-		logger:     logger,
 		pricePlans: pricePlans,
 		accounts:   accounts,
 	}

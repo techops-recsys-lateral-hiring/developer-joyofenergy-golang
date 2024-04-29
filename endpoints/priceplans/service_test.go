@@ -4,7 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 
 	"joi-energy-golang/domain"
@@ -17,7 +16,7 @@ func TestCompareAllPricePlans(t *testing.T) {
 		map[string][]domain.ElectricityReading{"home-sweet-home": {{
 			Time:    time.Now(),
 			Reading: 5.0,
-		},{
+		}, {
 			Time:    time.Now().Add(-10 * time.Hour),
 			Reading: 15.0,
 		}}},
@@ -30,13 +29,12 @@ func TestCompareAllPricePlans(t *testing.T) {
 		&meterReadings,
 	)
 	service := NewService(
-		logrus.NewEntry(logrus.StandardLogger()),
 		&pricePlans,
 		&accounts,
 	)
 	plans, err := service.CompareAllPricePlans("home-sweet-home")
 	expected := domain.PricePlanComparisons{
-		PricePlanId:          "test-plan",
+		PricePlanId: "test-plan",
 		PricePlanComparisons: map[string]float64{
 			"test-plan": 3.0,
 		},

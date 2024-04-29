@@ -12,8 +12,8 @@ import (
 func generateValidInput() domain.StoreReadings {
 	return domain.StoreReadings{
 		SmartMeterId: "12345",
-		ElectricityReadings:         []domain.ElectricityReading{{
-			Time: time.Now(),
+		ElectricityReadings: []domain.ElectricityReading{{
+			Time:    time.Now(),
 			Reading: 123.45,
 		}},
 	}
@@ -31,7 +31,7 @@ func TestValidationFailureWithMissingID(t *testing.T) {
 	input.SmartMeterId = ""
 
 	err := validateStoreReadings(input)
-	expectedErr := "smartMeterId: cannot be blank."
+	expectedErr := "store readings validation failed: smartMeterId: cannot be blank."
 	assert.EqualError(t, err, expectedErr)
 }
 
@@ -40,6 +40,6 @@ func TestValidationFailureWithMissingData(t *testing.T) {
 	input.ElectricityReadings = nil
 
 	err := validateStoreReadings(input)
-	expectedErr := "electricityReadings: is required."
+	expectedErr := "store readings validation failed: electricityReadings: is required."
 	assert.EqualError(t, err, expectedErr)
 }

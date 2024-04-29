@@ -5,8 +5,8 @@ import (
 )
 
 type ElectricityReading struct {
-	Time    time.Time
-	Reading float64
+	Time    time.Time `json:"time"`
+	Reading float64   `json:"reading"`
 }
 
 type PricePlan struct {
@@ -22,17 +22,17 @@ type PeakTimeMultiplier struct {
 }
 
 type SingleRecommendation struct {
-	Key   string
-	Value float64
+	Key   string  `json:"key"`
+	Value float64 `json:"value"`
 }
 
 type PricePlanRecommendation struct {
-	Recommendations []SingleRecommendation
+	Recommendations []SingleRecommendation `json:"recommendations"`
 }
 
 type PricePlanComparisons struct {
-	PricePlanId          string
-	PricePlanComparisons map[string]float64
+	PricePlanId          string             `json:"pricePlanId"`
+	PricePlanComparisons map[string]float64 `json:"pricePlanComparisons"`
 }
 
 const (
@@ -45,20 +45,11 @@ const (
 	Saturday
 )
 
-type Error struct {
-	ErrorMessage string `json:"errorMessage"`
-}
-
-type Message struct {
-	ID   string `json:"id"`
-	Data string `json:"data"`
-	Rows []string `json:"rows"`
-}
-
-type Response struct {
+type ErrorResponse struct {
+	Message string `json:"message"`
 }
 
 type StoreReadings struct {
-	SmartMeterId        string `json:"smartMeterId"`
+	SmartMeterId        string               `json:"smartMeterId"`
 	ElectricityReadings []ElectricityReading `json:"electricityReadings"`
 }

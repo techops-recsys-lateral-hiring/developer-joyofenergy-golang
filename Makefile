@@ -1,4 +1,4 @@
-.PHONY: setup test build all clean lint run help
+.PHONY: setup test build dev all clean lint run help
 .PHONY: docker-build docker-run docker-kill
 
 BUILD_DIR := bin
@@ -14,6 +14,9 @@ test: ## Run the tests.
 
 build: ## Build the server.
 	@go build -v -ldflags "-s -w" -o ./bin/server ./cmd/server
+
+dev: ## Run local server.
+	@go run ./cmd/server/main.go
 
 all: clean lint test build run ## Run all tests, then build and run
 

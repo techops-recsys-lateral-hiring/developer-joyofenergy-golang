@@ -21,6 +21,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+  Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Golang
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: './go.mod'
+          cache: false
+
+      - name: Set up project
+        run: make setup
+
+      - name: Run tests
+        run: make test
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -33,6 +51,3 @@ jobs:
 
       - name: Build
         run: CGO_ENABLED=0 go build -ldflags="-s -w" -o ./app/bin/server ./cmd/server
-
-      - name: Test
-        run: go test -v ./... -p 8

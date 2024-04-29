@@ -1,9 +1,12 @@
-.PHONY: test all clean lint build run help
+.PHONY: setup test all clean lint build run help
 
 BUILD_DIR := bin
 TOOLS_DIR := tools
 
 .DEFAULT_GOAL:=help
+
+setup: ## Setup server.
+	@go mod download
 
 test: ## Run test.
 	@go test -v ./... -covermode=atomic

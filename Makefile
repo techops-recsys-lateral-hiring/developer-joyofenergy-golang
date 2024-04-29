@@ -9,7 +9,7 @@ setup: ## Set up the server.
 	@go mod download
 
 test: ## Run the tests.
-	@go test -v ./... -covermode=atomic
+	@go test -v ./... -cover -coverprofile=coverage.txt -covermode=atomic
 
 build: ## Build the server.
 	@go build -v -ldflags "-s -w" -o ./bin/server ./cmd/server
